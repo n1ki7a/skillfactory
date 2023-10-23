@@ -146,6 +146,7 @@ class Board:  # Класс доска
 
         if state == self.states['empty']:
             self.field[dot.x - 1][dot.y - 1] = self.states['miss']  # Промазали
+            print('Мимо!')
             return False
 
         if state == self.states['ship']:  # Попали по кораблю
@@ -153,12 +154,12 @@ class Board:  # Класс доска
             item_ship = self.ship_by_dot(dot)
             item_ship.hp -= 1
             if item_ship.hp == 0:
-                print('Корабль уничтожен')
+                print('Корабль уничтожен!')
                 ship_contour = self.contour(item_ship)
                 for item in ship_contour:
                     self.field[item.x - 1][item.y - 1] = self.states['miss']
             else:
-                print('Корабль ранен')
+                print('Корабль ранен!1')
             return True
 
     def ship_by_dot(self, dot):  # Получение корабля по точке
