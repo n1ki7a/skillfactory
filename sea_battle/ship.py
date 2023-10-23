@@ -10,7 +10,7 @@ class Ship:
         self._hp = size
 
         self._dots = [self.position]
-        if self.direction == "v":
+        if self.direction == "vertical":
             for y in range(position.y + 1, position.y + size):
                 self._dots.append(Dot(position.x, y))
         else:
@@ -32,6 +32,6 @@ class Ship:
 
 if __name__ == "__main__":
 
-    ship = Ship(2, Dot(1,3), "v")
+    ship = Ship(2, Dot(1,3), "vertical")
     for dot in ship.dots:
         print(dot)

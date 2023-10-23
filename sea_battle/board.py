@@ -9,7 +9,7 @@ class Board:
     _ships = [3, 2, 2, 1, 1, 1, 1]
     states = {'empty': ' ', 'ship': '■', 'hit': '□', 'miss': '•'}
 
-    def __init__(self, hid):
+    def __init__(self, hid=False):
         self.hid = hid
         self.ship_list = []
         self.field = [[self.states['empty']]*self._width for _ in range(self._height)]
@@ -23,7 +23,7 @@ class Board:
         return count
 
     def out(self, dot):
-        return dot.x > self._width or dot.x > self._height
+        return dot.x > self._width or dot.y > self._height
 
     def occupied(self, dot):
         contoured_dot = self.contour(dot)
