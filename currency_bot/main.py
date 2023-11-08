@@ -2,7 +2,7 @@ import requests
 import telebot
 
 
-TOKEN = ''
+from config import *
 
 
 bot = telebot.TeleBot(TOKEN)
