@@ -1,16 +1,9 @@
-import requests
 import telebot
 
-
+from extensions import Converter, APIException
 from config import *
 
-
 bot = telebot.TeleBot(TOKEN)
-
-keys = {
-    'доллар': 'USD',
-    'рубль': 'RUB'
-}
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -30,8 +23,21 @@ def command_values(message: telebot.types.Message):
 
 @bot.message_handler(content_types=['text'])
 def convert(message: telebot.types.Message):
-    queue, base, amount = message.text.split(' ')
-    r = requests.get('https://www.cbr-xml-daily.ru/latest.js')
+    try:
+        values = message.text.split(' ')
+
+        if len(values) != 3:
+            raise APIException('Неверное количество параметров.')
+
+        quote, base, amount = values
+        result = Converter.get_price(quote, base, amount)
+    except APIException as e:
+        bot.reply_to(message, f'Ошибка пользователя.\n{e}')
+    except Exception as e:
+        bot.reply_to(message, f'Не удалось обработать команду.\n{e}')
+    else:
+        text = f'{amount} {quote} = {result["total"]:.2f} {base}\nЦБ РФ - {result["date"]}'
+        bot.reply_to(message, text)
 
 
 bot.polling()
