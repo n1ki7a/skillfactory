@@ -1,0 +1,88 @@
+from newsportal.models import *
+
+1. Создать двух пользователей (с помощью метода User.objects.create_user('username')).
+
+user1 = django.contrib.auth.get_user_model().objects.create_user('nikita') 
+user2 = django.contrib.auth.get_user_model().objects.create_user('ivan')  
+
+2. Создать два объекта модели Author, связанные с пользователями.
+
+author1 = Author.objects.create(user = user1)
+author2 = Author.objects.create(user = user2)
+
+3. Добавить 4 категории в модель Category.
+
+cat1 = Category.objects.create(name = 'Спорт')
+cat2 = Category.objects.create(name = 'Музыка')
+cat3 = Category.objects.create(name = 'Кино')
+cat4 = Category.objects.create(name = 'Политика')
+
+4. Добавить 2 статьи и 1 новость.
+
+post1 = Post.objects.create(author = author1, type = 'POST', title = 'Группа Tool выпустила первый альбом за 13 лет', content = '30 августа вышел альбом американской прог-метал-группы Tool «Fear Inoculum». Поклонники ждали этого релиза 13 лет. За это время поменялась вся музыкальная индустрия — и теперь группа, которую все это время нельзя было послушать легально на цифровых носителях, занимает первые места в топах стриминговых сервисов. Pасскажем, почему новый альбом Tool — это важнейшее музыкальное событие и, возможно, прощание группы с фанатами.')
+
+post2 = Post.objects.create(author = author1, type = 'POST', title = 'Кёрлинг', content = 'Кёрлинг возник в Шотландии в начале XVI века, фактическим подтверждением существования этой спортивной игры является кёрлинговый спортивный снаряд (камень), на поверхности которого выбита дата изготовления («1511 год»), найденный на дне осушенного пруда в Данблейне. Первые же летописные упоминания о кёрлинге встречаются в средневековых монастырских книгах, датированных 1541 годом, сохранившихся в шотландском аббатстве Пейсли.')
+
+post3 = Post.objects.create(author = author2, type = 'NEWS', title = 'Проишествие в Задрипенске', content = 'В Задрипенске сегодня ничего не произошло')
+
+5. Присвоить им категории (как минимум в одной статье/новости должно быть не меньше 2 категорий).
+
+PostCategory.objects.create(post = post1, category = cat2)
+PostCategory.objects.create(post = post1, category = cat3)
+PostCategory.objects.create(post = post2, category = cat1)
+PostCategory.objects.create(post = post3, category = cat4)
+
+6. Создать как минимум 4 комментария к разным объектам модели Post (в каждом объекте должен быть как минимум один комментарий).
+
+comment1 = Comment.objects.create(post = post1, user = user2, content = "Вот это да!")
+comment2 = Comment.objects.create(post = post1, user = user1, content = "А ты думал!") 
+comment3 = Comment.objects.create(post = post2, user = user2, content = "Мы не знаем что это такое, если бы мы знали что это такое, мы не знаем что это такое...")
+comment4 = Comment.objects.create(post = post3, user = user1, content = "Тут уже больше 20 лет ничего не происходит.")
+
+7. Применяя функции like() и dislike() к статьям/новостям и комментариям, скорректировать рейтинги этих объектов.
+
+post1.like()
+post1.like()
+post1.dislike()
+post1.like()
+post1.like()
+post1.dislike()
+
+post2.like()
+post2.like()
+post2.dislike()
+
+post3.like()
+post3.like()
+
+comment1.like()
+comment1.like()
+
+comment2.like()
+comment2.dislike()
+
+comment3.like()
+
+comment4.like()
+
+8. Обновить рейтинги пользователей.
+
+author1.update_rating()
+author2.update_rating()
+	
+9. Вывести username и рейтинг лучшего пользователя (применяя сортировку и возвращая поля первого объекта).
+
+Author.objects.order_by('-rating').values('user__username', 'rating').first() 
+
+10. Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на лайках/дислайках к этой статье.
+
+bestpost = Post.objects.filter(type='POST').order_by('-rating').first()
+bestpost.create_time.date() 
+bestpost.author.user.username
+bestpost.rating
+bestpost.title
+bestpost.preview
+
+11. Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
+
+bestpost.comments.all().values('create_time__date', 'user', 'rating', 'content')

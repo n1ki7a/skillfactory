@@ -14,7 +14,7 @@ class Staff(models.Model):
     position = models.CharField(max_length=2,
                                 choices=POSITIONS,
                                 default=cashier)
-    labor_contract = models.IntegerField(max_length=255)
+    labor_contract = models.IntegerField()
 
 
 class Order(models.Model):
