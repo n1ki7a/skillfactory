@@ -7,6 +7,18 @@ from kfc.resources import POSITIONS, cashier
 class Product(models.Model):
     name = models.CharField(max_length=255)
     price = models.FloatField(default=0.0)
+    category = models.ForeignKey(to='Category', on_delete=models.CASCADE, related_name='products')
+
+    def __str__(self):
+        return self.name.title()
+
+
+class Category(models.Model):
+    # названия категорий тоже не должны повторяться
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name.title()
 
 
 class Staff(models.Model):
@@ -14,7 +26,7 @@ class Staff(models.Model):
     position = models.CharField(max_length=2,
                                 choices=POSITIONS,
                                 default=cashier)
-    labor_contract = models.IntegerField(max_length=255)
+    labor_contract = models.IntegerField()
 
 
 class Order(models.Model):
