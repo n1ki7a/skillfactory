@@ -1,0 +1,14 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+
+<!-- Название у нас будет Product -->
+{% block title %}
+Новости
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
+{% block content %}
+<h1>{{ news_detail.title }}</h1>
+<p class="small">{{ news_detail.create_time|date:'m.d.Y' }}</p>
+<p>{{ news_detail.content }}</p>
+{% endblock content %}

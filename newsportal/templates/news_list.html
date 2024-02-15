@@ -1,0 +1,21 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Новости
+{% endblock title %}
+
+{% block content %}
+<h1>Новости</h1>
+<small>{{news_list|length}}</small>
+{% for item in news_list %}
+<article class="news-post mt-2 mb-4">
+    <h3>
+        {{ item.title }}
+        <small class="text-muted">{{ item.create_time|date:'m.d.Y' }}</small>
+    </h3>
+    <p>{{ item.content|truncatewords:20 }}</p>
+    <a href="/news/{{ item.id }}">Читать</a>
+</article>
+{% endfor %}
+{% endblock content %}
