@@ -15,6 +15,9 @@ class Author(models.Model):
                        + Comment.objects.filter(post__author=self).aggregate(Sum("rating", default=0))['rating__sum'])
         self.save()
 
+    def __str__(self):
+        return f'{self.user.username}'
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -42,6 +45,9 @@ class Post(models.Model):
     @property
     def preview(self):
         return self.content[0:124] + "..." * (len(self.content) > 124)
+
+    def __str__(self):
+        return f'{self.title}'
 
 
 class PostCategory(models.Model):

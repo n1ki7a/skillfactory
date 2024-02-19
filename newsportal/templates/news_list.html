@@ -13,10 +13,10 @@
 {% for item in news_list %}
 <article class="news-post mt-2 mb-4">
     <h3>
-        {{ item.title }}
-        <small class="text-muted">{{ item.create_time|date:'m.d.Y' }}</small>
+        {{ item.title|censor }}
     </h3>
-    <p>{{ item.content|truncatewords:20|censor }}</p>
+    <p class="small">{{ item.create_time|date:'m.d.Y' }}</p>
+    <p>{{ item.content|truncatechars:20|censor }}</p>
     <a href="/news/{{ item.id }}">Читать</a>
 </article>
 {% endfor %}
