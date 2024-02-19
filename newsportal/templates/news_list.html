@@ -1,6 +1,8 @@
 <!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
 {% extends 'flatpages/default.html' %}
 
+{% load custom_filters %}
+
 {% block title %}
 Новости
 {% endblock title %}
@@ -14,7 +16,7 @@
         {{ item.title }}
         <small class="text-muted">{{ item.create_time|date:'m.d.Y' }}</small>
     </h3>
-    <p>{{ item.content|truncatewords:20 }}</p>
+    <p>{{ item.content|truncatewords:20|censor }}</p>
     <a href="/news/{{ item.id }}">Читать</a>
 </article>
 {% endfor %}
