@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'kfc',
+    'django_filters',
 ]
 
 SITE_ID = 1
