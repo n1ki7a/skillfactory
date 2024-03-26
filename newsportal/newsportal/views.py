@@ -1,6 +1,9 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
+
+from .forms import PostForm
 from .models import Post
 from .resources import news
 
@@ -27,3 +30,16 @@ class NewsDetail(DetailView):
     template_name = 'news_detail.html'
     # Название объекта, в котором будет выбранный пользователем продукт
     context_object_name = 'news_detail'
+
+
+class NewsCreate(CreateView):
+    form_class = PostForm
+    model = Post
+    # и новый шаблон, в котором используется форма.
+    template_name = 'post_edit.html'
+    success_url = reverse_lazy('news_list')
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.type = news
+        return super().form_valid(form)
