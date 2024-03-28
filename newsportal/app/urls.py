@@ -17,8 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from newsportal.resources import news, post
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('newsportal.urls')),
-    path('news/', include('newsportal.urls')),
 ]

@@ -4,22 +4,20 @@
 {% load custom_filters %}
 
 {% block title %}
-Новости
+Статьи
 {% endblock title %}
 
-<p>fer er vcye cyec ervc</p>
-
 {% block content %}
-<h1>Новости</h1>
-<small>{{news_list|length}}</small>
-{% for item in news_list %}
+<h1>Статьи</h1>
+<small>{{articles_list|length}}</small>
+{% for item in articles_list %}
 <article class="news-post mt-2 mb-4">
     <h3>
         {{ item.title|censor }}
     </h3>
     <p class="small">{{ item.create_time|date:'m.d.Y' }}</p>
     <p>{{ item.content|truncatechars:20|censor }}</p>
-    <a href="/news/{{ item.id }}">Читать</a>
+    <a href="/articles/{{ item.id }}">Читать</a>
 </article>
 {% endfor %}
 {% endblock content %}
