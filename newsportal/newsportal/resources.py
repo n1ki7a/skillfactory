@@ -1,7 +1,7 @@
-post = 'POST'
+article = 'ARTICLE'
 news = 'NEWS'
 
 POSTTYPES = [
-    (post, 'Статья'),
+    (article, 'Статья'),
     (news, 'Новость'),
 ]

@@ -10,14 +10,18 @@
 {% block content %}
 <h1>Статьи</h1>
 <small>{{articles_list|length}}</small>
+<br>
+
+<a href="{% url 'articles_create' %}">Добавить</a>
+
 {% for item in articles_list %}
 <article class="news-post mt-2 mb-4">
     <h3>
         {{ item.title|censor }}
     </h3>
-    <p class="small">{{ item.create_time|date:'m.d.Y' }}</p>
+    <p class="small">{{ item.create_time|date:'d.m.Y' }}</p>
     <p>{{ item.content|truncatechars:20|censor }}</p>
-    <a href="/articles/{{ item.id }}">Читать</a>
+    <a href="{% url 'articles_detail' item.id %}">Читать</a> | <a href="{% url 'articles_update' item.id %}">Редактировать</a> | <a href="{% url 'articles_delete' item.id %}">Удалить</a>
 </article>
 {% endfor %}
 {% endblock content %}

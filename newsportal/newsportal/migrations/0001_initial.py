@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
             name='Post',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.CharField(choices=[('POST', 'Статья'), ('NEWS', 'Новость')], default='POST', max_length=4)),
+                ('type', models.CharField(choices=[('ARTICLE', 'Статья'), ('NEWS', 'Новость')], default='ARTICLE', max_length=7)),
                 ('create_time', models.DateTimeField(auto_now_add=True)),
                 ('title', models.CharField(max_length=255)),
                 ('content', models.TextField()),

@@ -1,8 +1,9 @@
 import django.contrib.auth
 from django.db import models
 from django.db.models import Sum
+from django.urls import reverse
 
-from newsportal.resources import POSTTYPES, post
+from newsportal.resources import POSTTYPES, article
 
 
 class Author(models.Model):
@@ -25,9 +26,9 @@ class Category(models.Model):
 
 class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='posts')
-    type = models.CharField(max_length=4,
+    type = models.CharField(max_length=7,
                             choices=POSTTYPES,
-                            default=post)
+                            default=article)
     create_time = models.DateTimeField(auto_now_add=True)
     categories = models.ManyToManyField(Category, through='PostCategory')
     title = models.CharField(max_length=255, blank=False)
@@ -48,6 +49,10 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+    def get_absolute_url(self):
+        viewname = 'articles_detail' if self.type == article else 'news_detail'
+        return reverse(viewname, args=[str(self.id)])
 
 
 class PostCategory(models.Model):
