@@ -40,5 +40,6 @@ def upgrade_me(request):
     premium_group = Group.objects.get(name='authors')
     if not user.groups.filter(name='authors').exists():
         premium_group.user_set.add(user)
-    Author.objects.create(user=user)
+    if not Author.objects.filter(user=user).exists():
+        Author.objects.create(user=user)
     return redirect(reverse_lazy('profile_view'))
