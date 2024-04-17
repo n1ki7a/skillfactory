@@ -1,11 +1,12 @@
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .filters import PostFilter
 from .forms import PostForm
-from .models import Post
+from .models import Post, Author
 from .resources import news, article
 
 
@@ -50,7 +51,8 @@ class NewsDetail(DetailView):
     context_object_name = 'news_detail'
 
 
-class NewsCreate(CreateView):
+class NewsCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('newsportal.add_post',)
     form_class = PostForm
     model = Post
     # и новый шаблон, в котором используется форма.
@@ -63,13 +65,15 @@ class NewsCreate(CreateView):
         return super().form_valid(form)
 
 
-class NewsUpdate(UpdateView):
+class NewsUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = ('newsportal.change_post',)
     form_class = PostForm
     model = Post
     template_name = 'news_edit.html'
 
 
-class NewsDelete(DeleteView):
+class NewsDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('newsportal.delete_post',)
     model = Post
     template_name = 'news_delete.html'
     success_url = reverse_lazy('news_list')
@@ -89,7 +93,8 @@ class ArticleDetail(DetailView):
     context_object_name = 'article_detail'
 
 
-class ArticleCreate(CreateView):
+class ArticleCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('newsportal.add_post',)
     form_class = PostForm
     model = Post
     template_name = 'article_edit.html'
@@ -101,13 +106,15 @@ class ArticleCreate(CreateView):
         return super().form_valid(form)
 
 
-class ArticleUpdate(UpdateView):
+class ArticleUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('newsportal.change_post',)
     form_class = PostForm
     model = Post
     template_name = 'article_edit.html'
 
 
-class ArticleDelete(DeleteView):
+class ArticleDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('newsportal.delete_post',)
     model = Post
     template_name = 'article_delete.html'
     success_url = reverse_lazy('articles_list')
