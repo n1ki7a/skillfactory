@@ -22,9 +22,15 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    subscribers = models.ManyToManyField(django.contrib.auth.get_user_model(), through='CategorySubscribers')
 
     def __str__(self):
         return f'{self.name}'
+
+
+class CategorySubscribers(models.Model):
+    user = models.ForeignKey(django.contrib.auth.get_user_model(), on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
 class Post(models.Model):

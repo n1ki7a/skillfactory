@@ -34,6 +34,12 @@
         </h3>
         <p class="small">{{ item.create_time|date:'d.m.Y' }}</p>
         <p>{{ item.content|truncatechars:20|censor }}</p>
+
+        <p>Категории</p>
+        {% for category in item.categories.all %}
+            <li>{{ category }}</li>
+        {% endfor %}
+
         <a href="{% url 'news_detail' item.id %}">Читать</a> | <a href="{% url 'news_update' item.id %}">Редактировать</a> | <a href="{% url 'news_delete' item.id %}">Удалить</a>
     </article>
     {% endfor %}
