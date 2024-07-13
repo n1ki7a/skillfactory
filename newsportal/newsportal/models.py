@@ -22,6 +22,7 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    posts = models.ManyToManyField('Post', through='PostCategory')
     subscribers = models.ManyToManyField(django.contrib.auth.get_user_model(), through='CategorySubscribers')
 
     def __str__(self):
